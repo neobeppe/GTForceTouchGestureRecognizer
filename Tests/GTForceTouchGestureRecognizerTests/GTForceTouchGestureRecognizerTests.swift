@@ -24,7 +24,7 @@
 
 import Foundation
 import XCTest
-import GTForceTouchGestureRecognizer
+@testable import GTForceTouchGestureRecognizer
 
 class GTForceTouchGestureRecognizerTests: XCTestCase {
     func testExample() {
@@ -33,13 +33,3 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
         //// XCTAssertEqual(GTForceTouchGestureRecognizer().text, "Hello, World!")
     }
 }
-
-#if os(Linux)
-extension GTForceTouchGestureRecognizerTests {
-    static var allTests : [(String, (GTForceTouchGestureRecognizerTests) -> () throws -> Void)] {
-        return [
-            ("testExample", testExample),
-        ]
-    }
-}
-#endif
