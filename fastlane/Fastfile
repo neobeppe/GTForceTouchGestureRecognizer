@@ -33,10 +33,10 @@ platform :ios do
     scan(
       device: "iPhone 7"
     )
-    slack(
-      default_payloads: [:git_author],
-      message: "Successfully tested: "+git_branch+", commit: "+sh("git log --pretty=format:'%h' -n 1")+" :rocket:"
-    )
+    # slack(
+    #   default_payloads: [:git_author],
+    #   message: "Successfully tested: "+git_branch+", commit: "+sh("git log --pretty=format:'%h' -n 1")+" :rocket:"
+    # )
   end
 
   desc "Slather sends code coverage to Coveralls"
@@ -58,10 +58,10 @@ platform :ios do
   end
 
   error do |lane, exception|
-    slack(
-      message: exception.message,
-      success: false
-    )
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
   end
 
 end
