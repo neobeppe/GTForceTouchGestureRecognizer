@@ -27,9 +27,13 @@ import XCTest
 @testable import GTForceTouchGestureRecognizer
 
 class GTForceTouchGestureRecognizerTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        //// XCTAssertEqual(GTForceTouchGestureRecognizer().text, "Hello, World!")
+    func testInit() {
+        let view = UIView()
+        let forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: self, action: #selector(emptySelector))
+        view.addGestureRecognizer(forceTouchGestureRecognizer)
+        
+        XCTAssertNotNil(view.gestureRecognizers)
     }
+    
+    func emptySelector() {}
 }
