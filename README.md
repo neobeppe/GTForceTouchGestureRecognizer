@@ -14,7 +14,7 @@ iOS 9 is required.
 
 #### CocoaPods
 
-DCViewer is available through [CocoaPods](http://cocoapods.org). To install
+GTForceTouchGestureRecognizer is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
