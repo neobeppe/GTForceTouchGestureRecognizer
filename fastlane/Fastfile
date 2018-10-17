@@ -40,7 +40,7 @@ platform :ios do
       travis: true,
       proj: "GTForceTouchGestureRecognizer.xcodeproj",
       scheme: "GTForceTouchGestureRecognizer-iOS",
-      source_directory: "Sources/",
+      source_directory: "Sources",
       coveralls: true
     )
   end
