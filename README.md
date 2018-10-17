@@ -4,11 +4,10 @@
 [![Version](https://img.shields.io/cocoapods/v/GTForceTouchGestureRecognizer.svg?style=flat)](http://cocoapods.org/pods/GTForceTouchGestureRecognizer)
 [![License](https://img.shields.io/cocoapods/l/GTForceTouchGestureRecognizer.svg?style=flat)](http://cocoapods.org/pods/GTForceTouchGestureRecognizer)
 [![Platform](https://img.shields.io/cocoapods/p/GTForceTouchGestureRecognizer.svg?style=flat)](http://cocoapods.org/pods/GTForceTouchGestureRecognizer)
-[![Coverage Status](https://coveralls.io/repos/github/neobeppe/GTForceTouchGestureRecognizer/badge.svg?branch=master)](https://coveralls.io/github/neobeppe/GTForceTouchGestureRecognizer?branch=master)
 
 ## Requirements
 
-iOS 9 is required.
+iOS 10 is required.
 
 ## Installation
 
@@ -19,14 +18,6 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod "GTForceTouchGestureRecognizer"
-```
-
-#### Carthage
-
-You can use [Carthage](https://github.com/Carthage/Carthage) to install `GTForceTouchGestureRecognizer` by adding it to your `Cartfile`:
-
-```
-github "neobeppe/GTForceTouchGestureRecognizer"
 ```
 
 #### Swift Package Manager
