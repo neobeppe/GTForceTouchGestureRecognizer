@@ -18,7 +18,6 @@ default_platform :ios
 platform :ios do
 
   before_all do
-    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
   end
 
   desc "Default CI lane"
@@ -33,15 +32,12 @@ platform :ios do
     scan(
       device: "iPhone XS"
     )
-    # slack(
-    #   default_payloads: [:git_author],
-    #   message: "Successfully tested: "+git_branch+", commit: "+sh("git log --pretty=format:'%h' -n 1")+" :rocket:"
-    # )
   end
 
   desc "Slather sends code coverage to Coveralls"
   lane :coverage do
     slather(
+      travis: true,
       proj: "GTForceTouchGestureRecognizer.xcodeproj",
       scheme: "GTForceTouchGestureRecognizer-iOS",
       coveralls: true
@@ -54,14 +50,10 @@ platform :ios do
   end
 
   after_all do |lane|
-    clean_build_artifacts
+    clean
   end
 
   error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
   end
 
 end
