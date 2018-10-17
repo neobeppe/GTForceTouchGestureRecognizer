@@ -22,7 +22,6 @@
  *  SOFTWARE.
  */
 
-import AudioToolbox
 import UIKit.UIGestureRecognizerSubclass
 
 class GTForceTouchGestureRecognizer: UIGestureRecognizer {
@@ -31,14 +30,19 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
     var threshold: CGFloat = 0.75
     var hardTriggerMinTime: TimeInterval = 0.5
     
-    private var deepPressed: Bool = false
+    private var deepPressed: Bool = false {
+        willSet {
+            if newValue == true {
+                deepPressedAt = NSDate.timeIntervalSinceReferenceDate
+            }
+        }
+    }
     private var deepPressedAt: TimeInterval = 0
-    private var k_PeakSoundID:UInt32 = 1519
     private var target: AnyObject?
     private var action: Selector
+    private let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
     
-    required init(target: AnyObject?, action: Selector, threshold: CGFloat = 0.75)
-    {
+    required init(target: AnyObject?, action: Selector, threshold: CGFloat = 0.75) {
         self.target = target
         self.threshold = threshold
         self.action = action
@@ -46,76 +50,60 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
         super.init(target: target, action: action)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent)
-    {
-        if let touch = touches.first
-        {
-            handleTouch(touch)
-        }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        handleTouch(touches.first)
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent)
-    {
-        if let touch = touches.first
-        {
-            handleTouch(touch)
-        }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        handleTouch(touches.first)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent)
-    {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
         super.touchesEnded(touches, with: event)
-        
-        state = deepPressed ? UIGestureRecognizerState.ended : UIGestureRecognizerState.failed
-        
+        state = deepPressed ? UIGestureRecognizer.State.ended : UIGestureRecognizer.State.failed
         deepPressed = false
     }
     
-    private func handleTouch(_ touch: UITouch)
-    {
+    private func handleTouch(_ touch: UITouch?) {
         
-        if #available(iOS 9.0, *) {
-            
-            guard let _ = view, touch.force != 0 && touch.maximumPossibleForce != 0 else { return }
-            
-            let forcePercentage = (touch.force / touch.maximumPossibleForce)
-            
-            let currentTime = NSDate.timeIntervalSinceReferenceDate
-            
-            if !deepPressed && forcePercentage >= threshold
-            {
-                state = UIGestureRecognizerState.began
-                
-                if vibrateOnDeepPress
-                {
-                    AudioServicesPlaySystemSound(k_PeakSoundID)
-                }
-                
-                deepPressedAt = NSDate.timeIntervalSinceReferenceDate
-                deepPressed = true
-            }
-            else if deepPressed && forcePercentage <= 0
-            {
-                endGesture()
-            }
-            else if deepPressed && currentTime - deepPressedAt > hardTriggerMinTime && forcePercentage == 1.0
-            {
-                endGesture()
-                
-                if vibrateOnDeepPress
-                {
-                    AudioServicesPlaySystemSound(k_PeakSoundID)
-                }
-                
-                if let target = self.target {
-                    let _ = target.perform(action, with: self)
-                }
+        guard view != nil, let touch = touch, touch.force != 0 && touch.maximumPossibleForce != 0 else {
+            return
+        }
+        
+        let forcePercentage = touch.force / touch.maximumPossibleForce
+        
+        if deepPressed && forcePercentage <= 0 {
+            endGesture()
+            return
+        }
+        
+        let currentTime = NSDate.timeIntervalSinceReferenceDate
+        
+        if !deepPressed && forcePercentage >= threshold {
+            vibrate()
+            state = UIGestureRecognizer.State.began
+            deepPressed = true
+            return
+        }
+        
+        if deepPressed && currentTime - deepPressedAt > hardTriggerMinTime && forcePercentage == 1.0 {
+            vibrate()
+            endGesture()
+            if let target = self.target {
+                let _ = target.perform(action, with: self)
             }
         }
     }
     
-    func endGesture() {
-        state = UIGestureRecognizerState.ended
+    private func vibrate() {
+        guard vibrateOnDeepPress else {
+            return
+        }
+        feedbackGenerator.impactOccurred()
+    }
+    
+    private func endGesture() {
+        state = UIGestureRecognizer.State.ended
         deepPressed = false
     }
 }
