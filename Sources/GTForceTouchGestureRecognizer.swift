@@ -30,17 +30,17 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
     var threshold: CGFloat = 0.75
     var hardTriggerMinTime: TimeInterval = 0.5
     
-    private var deepPressed: Bool = false {
+    internal var deepPressed: Bool = false {
         willSet {
             if newValue == true {
                 deepPressedAt = NSDate.timeIntervalSinceReferenceDate
             }
         }
     }
-    private var deepPressedAt: TimeInterval = 0
-    private var target: AnyObject?
-    private var action: Selector
-    private let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
+    internal var deepPressedAt: TimeInterval = 0
+    internal var target: AnyObject?
+    internal var action: Selector
+    internal let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
     
     required init(target: AnyObject?, action: Selector, threshold: CGFloat = 0.75) {
         self.target = target
@@ -64,7 +64,7 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
         deepPressed = false
     }
     
-    private func handleTouch(_ touch: UITouch?) {
+    internal func handleTouch(_ touch: UITouch?) {
         
         guard view != nil, let touch = touch, touch.force != 0 && touch.maximumPossibleForce != 0 else {
             return
@@ -95,14 +95,14 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
         }
     }
     
-    private func vibrate() {
+    internal func vibrate() {
         guard vibrateOnDeepPress else {
             return
         }
         feedbackGenerator.impactOccurred()
     }
     
-    private func endGesture() {
+    internal func endGesture() {
         state = UIGestureRecognizer.State.ended
         deepPressed = false
     }

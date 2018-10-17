@@ -26,7 +26,7 @@
 		52D6D97C1BEFF229002C0205 /* GTForceTouchGestureRecognizer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GTForceTouchGestureRecognizer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9861BEFF229002C0205 /* GTForceTouchGestureRecognizer-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GTForceTouchGestureRecognizer-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9961BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GTForceTouchGestureRecognizer.swift; path = Sources/GTForceTouchGestureRecognizer.swift; sourceTree = "<group>"; };
-		52D6D9971BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GTForceTouchGestureRecognizerTests.swift; path = Tests/GTForceTouchGestureRecognizerTests/GTForceTouchGestureRecognizerTests.swift; sourceTree = "<group>"; };
+		52D6D9971BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTForceTouchGestureRecognizerTests.swift; sourceTree = "<group>"; };
 		AD2FAA261CD0B6D800659CF4 /* GTForceTouchGestureRecognizer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GTForceTouchGestureRecognizer.plist; sourceTree = "<group>"; };
 		AD2FAA281CD0B6E100659CF4 /* GTForceTouchGestureRecognizerTests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GTForceTouchGestureRecognizerTests.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,7 +54,6 @@
 			isa = PBXGroup;
 			children = (
 				52D6D9961BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift */,
-				52D6D9971BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift */,
 				52D6D99C1BEFF38C002C0205 /* Configs */,
 				52D6D97D1BEFF229002C0205 /* Products */,
 			);
@@ -89,6 +88,7 @@
 		DD7502731C68FC20006590AF /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				52D6D9971BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift */,
 				AD2FAA281CD0B6E100659CF4 /* GTForceTouchGestureRecognizerTests.plist */,
 			);
 			name = Tests;

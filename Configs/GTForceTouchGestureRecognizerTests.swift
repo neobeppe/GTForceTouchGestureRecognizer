@@ -27,13 +27,37 @@ import XCTest
 @testable import GTForceTouchGestureRecognizer
 
 class GTForceTouchGestureRecognizerTests: XCTestCase {
+    
+    static let mockTarget = MockClass()
+    
+    let view = UIView()
+    var forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: mockTarget, action: #selector(MockClass.emptySelector))
+    
+    override func setUp() {
+        super.setUp()
+        forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: GTForceTouchGestureRecognizerTests.mockTarget, action: #selector(MockClass.emptySelector))
+        view.addGestureRecognizer(forceTouchGestureRecognizer)
+    }
+    
+    override func tearDown() {
+        view.gestureRecognizers = nil
+    }
+    
     func testInit() {
         let view = UIView()
-        let forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: self, action: #selector(emptySelector))
+        let forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: GTForceTouchGestureRecognizerTests.mockTarget, action: #selector(MockClass.emptySelector))
         view.addGestureRecognizer(forceTouchGestureRecognizer)
-        
         XCTAssertNotNil(view.gestureRecognizers)
     }
     
-    func emptySelector() {}
+    func testDeepPressed() {
+        XCTAssert(forceTouchGestureRecognizer.deepPressedAt == 0, "deepPressedAt should be 0")
+        forceTouchGestureRecognizer.deepPressed = true
+        XCTAssert(forceTouchGestureRecognizer.deepPressedAt > 0, "deepPressedAt should new be greater than 0")
+    }
+    
+}
+
+class MockClass {
+    @objc func emptySelector() { }
 }
