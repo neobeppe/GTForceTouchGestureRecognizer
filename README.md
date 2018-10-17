@@ -1,6 +1,7 @@
 # GTForceTouchGestureRecognizer
 
 [![CI Status](http://img.shields.io/travis/neobeppe/GTForceTouchGestureRecognizer.svg?style=flat)](https://travis-ci.org/neobeppe/GTForceTouchGestureRecognizer)
+[![Coverage Status](https://coveralls.io/repos/github/neobeppe/GTForceTouchGestureRecognizer/badge.svg?branch=swift4)](https://coveralls.io/github/neobeppe/GTForceTouchGestureRecognizer?branch=swift4)
 [![Version](https://img.shields.io/cocoapods/v/GTForceTouchGestureRecognizer.svg?style=flat)](http://cocoapods.org/pods/GTForceTouchGestureRecognizer)
 [![License](https://img.shields.io/cocoapods/l/GTForceTouchGestureRecognizer.svg?style=flat)](http://cocoapods.org/pods/GTForceTouchGestureRecognizer)
 [![Platform](https://img.shields.io/cocoapods/p/GTForceTouchGestureRecognizer.svg?style=flat)](http://cocoapods.org/pods/GTForceTouchGestureRecognizer)
