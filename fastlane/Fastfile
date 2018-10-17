@@ -31,7 +31,7 @@ platform :ios do
   lane :test do
     pod_lib_lint
     scan(
-      device: "iPhone Xs"
+      device: "iPhone XS"
     )
     # slack(
     #   default_payloads: [:git_author],
