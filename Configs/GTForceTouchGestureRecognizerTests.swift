@@ -31,11 +31,11 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     static let mockTarget = MockClass()
     
     let view = UIView()
-    var forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: mockTarget, action: #selector(MockClass.emptySelector))
+    var forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: mockTarget, action: #selector(MockClass.mockSelector))
     
     override func setUp() {
         super.setUp()
-        forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: GTForceTouchGestureRecognizerTests.mockTarget, action: #selector(MockClass.emptySelector))
+        forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: GTForceTouchGestureRecognizerTests.mockTarget, action: #selector(MockClass.mockSelector))
         view.addGestureRecognizer(forceTouchGestureRecognizer)
     }
     
@@ -45,7 +45,7 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     
     func testInit() {
         let view = UIView()
-        let forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: GTForceTouchGestureRecognizerTests.mockTarget, action: #selector(MockClass.emptySelector))
+        let forceTouchGestureRecognizer = GTForceTouchGestureRecognizer(target: GTForceTouchGestureRecognizerTests.mockTarget, action: #selector(MockClass.mockSelector))
         view.addGestureRecognizer(forceTouchGestureRecognizer)
         XCTAssertNotNil(view.gestureRecognizers)
     }
@@ -56,8 +56,75 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
         XCTAssert(forceTouchGestureRecognizer.deepPressedAt > 0, "deepPressedAt should new be greater than 0")
     }
     
+    func testFailHandleTouch() {
+        forceTouchGestureRecognizer.handleTouch(nil)
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should not be deepPressed")
+    }
+    
+    func testEndTouch() {
+        forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.handleTouch(EndedTouch())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
+    }
+    
+    func testBeganTouch() {
+        forceTouchGestureRecognizer.handleTouch(BeganTouch())
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
+        XCTAssert(forceTouchGestureRecognizer.state == .began, "State should be began")
+    }
+    
+    func testSuccessfullTouch() {
+        
+        forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.hardTriggerMinTime = 0
+        
+        forceTouchGestureRecognizer.handleTouch(BeganTouch())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be began")
+        
+        guard let target = forceTouchGestureRecognizer.target as? MockClass else {
+            XCTFail("target is not MockClass")
+            return
+        }
+        XCTAssert(target.selected == true, "MockClass has not been selected")
+    }
 }
 
 class MockClass {
-    @objc func emptySelector() { }
+    
+    var selected: Bool = false
+    
+    @objc func mockSelector() {
+        selected = true
+    }
+}
+
+class EndedTouch: UITouch {
+    
+    override var maximumPossibleForce: CGFloat {
+        return 1.0
+    }
+    
+    override var force: CGFloat {
+        return -1.0
+    }
+}
+
+class BeganTouch: UITouch {
+    
+    override var maximumPossibleForce: CGFloat {
+        return 1.0
+    }
+    
+    override var force: CGFloat {
+        return 1.0
+    }
+}
+
+class Coso: NSObject {
+    
+    @objc static func test() {
+        
+    }
 }
