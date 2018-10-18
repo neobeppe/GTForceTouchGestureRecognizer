@@ -77,6 +77,7 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     func testSuccessfullTouch() {
         
         forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.vibrateOnDeepPress = false
         forceTouchGestureRecognizer.hardTriggerMinTime = 0
         
         forceTouchGestureRecognizer.handleTouch(BeganTouch())
@@ -88,6 +89,34 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
             return
         }
         XCTAssert(target.selected == true, "MockClass has not been selected")
+    }
+    
+    func testTouchBegan() {
+        forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.touchesBegan(Set(arrayLiteral: EndedTouch()), with: UIEvent())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
+    }
+    
+    func testTouchMoved() {
+        forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.touchesMoved(Set(arrayLiteral: EndedTouch()), with: UIEvent())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
+    }
+    
+    func testTouchEnded() {
+        forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.touchesEnded(Set(arrayLiteral: EndedTouch()), with: UIEvent())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
+    }
+    
+    func testTouchEndedFailed() {
+        forceTouchGestureRecognizer.deepPressed = false
+        forceTouchGestureRecognizer.touchesEnded(Set(arrayLiteral: EndedTouch()), with: UIEvent())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .failed, "State should be failed")
     }
 }
 
