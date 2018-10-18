@@ -1,7 +1,7 @@
 /**
  *  GTForceTouchGestureRecognizer
  *
- *  Copyright (c) 2017 Giuseppe Travasoni. Licensed under the MIT license, as follows:
+ *  Copyright (c) 2018 Giuseppe Travasoni. Licensed under the MIT license, as follows:
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -91,7 +91,7 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
         if deepPressed && currentTime - deepPressedAt > hardTriggerMinTime && forcePercentage == 1.0 {
             vibrate()
             endGesture()
-            let _ = gestureParameters.target?.perform(gestureParameters.action, with: self)
+            _ = gestureParameters.target?.perform(gestureParameters.action, with: self)
         }
     }
     
