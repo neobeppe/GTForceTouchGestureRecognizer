@@ -88,28 +88,4 @@ public class GTForceTouchGestureRecognizer: UIGestureRecognizer {
         deepPressed = false
         super.touchesEnded(touches, with: event)
     }
-    
-    internal func handleTouch(_ touch: UITouch?) {
-        guard view != nil, let touch = touch, touch.force != 0 && touch.maximumPossibleForce != 0 else {
-            return
-        }
-        let forcePercentage = touch.force / touch.maximumPossibleForce
-        if deepPressed && forcePercentage <= 0 {
-            state = UIGestureRecognizer.State.ended
-            return
-        }
-        handleForceTouch(with: forcePercentage)
-    }
-    
-    private func handleForceTouch(with forcePercentage: CGFloat) {
-        let currentTime = NSDate.timeIntervalSinceReferenceDate
-        if !deepPressed && forcePercentage >= threshold {
-            deepPressed = true
-            state = UIGestureRecognizer.State.began
-            return
-        }
-        if deepPressed && currentTime - deepPressedAt > hardTriggerMinTime && forcePercentage == 1.0 {
-            state = UIGestureRecognizer.State.ended
-        }
-    }
 }
