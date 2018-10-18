@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = 'GTForceTouchGestureRecognizer'
-  s.version      = '1.1.1'
+  s.version      = '1.1.2'
   s.summary      = 'Lightweight library to use force touch as gesture recognizer on iOS'
 
   s.homepage     = 'https://github.com/neobeppe/GTForceTouchGestureRecognizer'
