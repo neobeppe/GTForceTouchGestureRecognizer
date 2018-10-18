@@ -32,21 +32,18 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
     
     internal var deepPressed: Bool = false {
         willSet {
-            if newValue == true {
-                deepPressedAt = NSDate.timeIntervalSinceReferenceDate
+            guard newValue else {
+                return
             }
+            deepPressedAt = NSDate.timeIntervalSinceReferenceDate
         }
     }
     internal var deepPressedAt: TimeInterval = 0
-    internal var target: AnyObject?
-    internal var action: Selector
-    internal let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
+    internal var gestureParameters: (target: AnyObject?, action: Selector)
     
     required init(target: AnyObject?, action: Selector, threshold: CGFloat = 0.75) {
-        self.target = target
+        self.gestureParameters = (target, action)
         self.threshold = threshold
-        self.action = action
-        
         super.init(target: target, action: action)
     }
     
@@ -77,6 +74,11 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
             return
         }
         
+        handleForceTouch(with: forcePercentage)
+    }
+    
+    private func handleForceTouch(with forcePercentage: CGFloat) {
+        
         let currentTime = NSDate.timeIntervalSinceReferenceDate
         
         if !deepPressed && forcePercentage >= threshold {
@@ -89,17 +91,15 @@ class GTForceTouchGestureRecognizer: UIGestureRecognizer {
         if deepPressed && currentTime - deepPressedAt > hardTriggerMinTime && forcePercentage == 1.0 {
             vibrate()
             endGesture()
-            if let target = self.target {
-                let _ = target.perform(action, with: self)
-            }
+            let _ = gestureParameters.target?.perform(gestureParameters.action, with: self)
         }
     }
     
-    internal func vibrate() {
+    private func vibrate() {
         guard vibrateOnDeepPress else {
             return
         }
-        feedbackGenerator.impactOccurred()
+        UIImpactFeedbackGenerator.init(style: .medium).impactOccurred()
     }
     
     internal func endGesture() {

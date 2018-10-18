@@ -84,7 +84,7 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
         XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
         XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be began")
         
-        guard let target = forceTouchGestureRecognizer.target as? MockClass else {
+        guard let target = forceTouchGestureRecognizer.gestureParameters.target as? MockClass else {
             XCTFail("target is not MockClass")
             return
         }
@@ -118,6 +118,18 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
         XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
         XCTAssert(forceTouchGestureRecognizer.state == .failed, "State should be failed")
     }
+    
+    func testNilTargetAction() {
+        forceTouchGestureRecognizer.deepPressed = true
+        forceTouchGestureRecognizer.vibrateOnDeepPress = false
+        forceTouchGestureRecognizer.hardTriggerMinTime = 0
+        forceTouchGestureRecognizer.gestureParameters.target = nil
+        
+        forceTouchGestureRecognizer.handleTouch(BeganTouch())
+        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be began")
+    }
+    
 }
 
 class MockClass {
