@@ -24,86 +24,92 @@
 
 import UIKit.UIGestureRecognizerSubclass
 
-class GTForceTouchGestureRecognizer: UIGestureRecognizer {
+/// Force touch gesture recognizer
+public class GTForceTouchGestureRecognizer: UIGestureRecognizer {
     
-    var vibrateOnDeepPress = true
-    var threshold: CGFloat = 0.75
-    var hardTriggerMinTime: TimeInterval = 0.5
+    internal var deepPressedAt: TimeInterval = 0
+    internal var gestureParameters: (target: AnyObject?, action: Selector)
+    internal let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
+    internal let threshold: CGFloat
+    internal let hardTriggerMinTime: TimeInterval
     
     internal var deepPressed: Bool = false {
-        willSet {
-            guard newValue else {
+        didSet {
+            guard deepPressed, !oldValue else {
                 return
             }
             deepPressedAt = NSDate.timeIntervalSinceReferenceDate
         }
     }
-    internal var deepPressedAt: TimeInterval = 0
-    internal var gestureParameters: (target: AnyObject?, action: Selector)
     
-    required init(target: AnyObject?, action: Selector, threshold: CGFloat = 0.75) {
+    /// The current state of the gesture recognizer
+    public override var state: UIGestureRecognizer.State {
+        didSet {
+            guard oldValue != state else {
+                return
+            }
+            switch state {
+            case .began:
+                feedbackGenerator.prepare()
+            case .ended:
+                feedbackGenerator.impactOccurred()
+                _ = gestureParameters.target?.perform(gestureParameters.action, with: self)
+            default:
+                return
+            }
+        }
+    }
+    
+    /**
+     Initialize a force touch gesture recognizer.
+     - Parameters:
+        - target: target object on which call the selector
+        - action: selector to perform on target object
+        - threshold: minimum percentage force value to validate touch (default 0.75)
+        - hardTriggerMinTime: minumum time over threshold percentage to validate touch (default 0.5)
+     */
+    required public init(target: AnyObject?, action: Selector, threshold: CGFloat = 0.75, hardTriggerMinTime: TimeInterval = 0.5) {
         self.gestureParameters = (target, action)
         self.threshold = threshold
-        super.init(target: target, action: action)
+        self.hardTriggerMinTime = hardTriggerMinTime
+        super.init(target: nil, action: nil)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
         handleTouch(touches.first)
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
         handleTouch(touches.first)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesEnded(touches, with: event)
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
         state = deepPressed ? UIGestureRecognizer.State.ended : UIGestureRecognizer.State.failed
         deepPressed = false
+        super.touchesEnded(touches, with: event)
     }
     
     internal func handleTouch(_ touch: UITouch?) {
-        
         guard view != nil, let touch = touch, touch.force != 0 && touch.maximumPossibleForce != 0 else {
             return
         }
-        
         let forcePercentage = touch.force / touch.maximumPossibleForce
-        
         if deepPressed && forcePercentage <= 0 {
-            endGesture()
+            state = UIGestureRecognizer.State.ended
             return
         }
-        
         handleForceTouch(with: forcePercentage)
     }
     
     private func handleForceTouch(with forcePercentage: CGFloat) {
-        
         let currentTime = NSDate.timeIntervalSinceReferenceDate
-        
         if !deepPressed && forcePercentage >= threshold {
-            vibrate()
-            state = UIGestureRecognizer.State.began
             deepPressed = true
+            state = UIGestureRecognizer.State.began
             return
         }
-        
         if deepPressed && currentTime - deepPressedAt > hardTriggerMinTime && forcePercentage == 1.0 {
-            vibrate()
-            endGesture()
-            _ = gestureParameters.target?.perform(gestureParameters.action, with: self)
+            state = UIGestureRecognizer.State.ended
         }
-    }
-    
-    private func vibrate() {
-        guard vibrateOnDeepPress else {
-            return
-        }
-        UIImpactFeedbackGenerator.init(style: .medium).impactOccurred()
-    }
-    
-    internal func endGesture() {
-        state = UIGestureRecognizer.State.ended
-        deepPressed = false
     }
 }
