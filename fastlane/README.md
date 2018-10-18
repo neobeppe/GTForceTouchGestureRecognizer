@@ -36,6 +36,11 @@ Slather sends code coverage to Coveralls
 fastlane ios clean
 ```
 Clean environment after all operations
+### ios lint
+```
+fastlane ios lint
+```
+
 
 ----
 

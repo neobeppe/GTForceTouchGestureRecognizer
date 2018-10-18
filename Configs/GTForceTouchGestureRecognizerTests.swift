@@ -64,7 +64,7 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     func testEndTouch() {
         forceTouchGestureRecognizer.deepPressed = true
         forceTouchGestureRecognizer.handleTouch(EndedTouch())
-        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
         XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
     }
     
@@ -77,11 +77,10 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     func testSuccessfullTouch() {
         
         forceTouchGestureRecognizer.deepPressed = true
-        forceTouchGestureRecognizer.vibrateOnDeepPress = false
         forceTouchGestureRecognizer.hardTriggerMinTime = 0
         
         forceTouchGestureRecognizer.handleTouch(BeganTouch())
-        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
         XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be began")
         
         guard let target = forceTouchGestureRecognizer.gestureParameters.target as? MockClass else {
@@ -94,14 +93,17 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     func testTouchBegan() {
         forceTouchGestureRecognizer.deepPressed = true
         forceTouchGestureRecognizer.touchesBegan(Set(arrayLiteral: EndedTouch()), with: UIEvent())
-        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
         XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
     }
     
     func testTouchMoved() {
         forceTouchGestureRecognizer.deepPressed = true
         forceTouchGestureRecognizer.touchesMoved(Set(arrayLiteral: EndedTouch()), with: UIEvent())
-        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
+        XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
+        forceTouchGestureRecognizer.touchesMoved(Set(arrayLiteral: EndedTouch()), with: UIEvent())
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
         XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be ended")
     }
     
@@ -121,12 +123,11 @@ class GTForceTouchGestureRecognizerTests: XCTestCase {
     
     func testNilTargetAction() {
         forceTouchGestureRecognizer.deepPressed = true
-        forceTouchGestureRecognizer.vibrateOnDeepPress = false
         forceTouchGestureRecognizer.hardTriggerMinTime = 0
         forceTouchGestureRecognizer.gestureParameters.target = nil
         
         forceTouchGestureRecognizer.handleTouch(BeganTouch())
-        XCTAssertFalse(forceTouchGestureRecognizer.deepPressed, "Should be now false")
+        XCTAssertTrue(forceTouchGestureRecognizer.deepPressed, "Should be now true")
         XCTAssert(forceTouchGestureRecognizer.state == .ended, "State should be began")
     }
     

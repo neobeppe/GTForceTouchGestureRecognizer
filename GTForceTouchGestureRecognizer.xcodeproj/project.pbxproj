@@ -10,6 +10,7 @@
 		52D6D9871BEFF229002C0205 /* GTForceTouchGestureRecognizer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* GTForceTouchGestureRecognizer.framework */; };
 		52D6D9981BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9961BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift */; };
 		52D6D99B1BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D6D9971BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift */; };
+		7AEF8C7F2178C66300D634B1 /* GTForceTouchGestureRecognizerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEF8C7E2178C66300D634B1 /* GTForceTouchGestureRecognizerInternal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +28,7 @@
 		52D6D9861BEFF229002C0205 /* GTForceTouchGestureRecognizer-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GTForceTouchGestureRecognizer-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D6D9961BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GTForceTouchGestureRecognizer.swift; path = Sources/GTForceTouchGestureRecognizer.swift; sourceTree = "<group>"; };
 		52D6D9971BEFF375002C0205 /* GTForceTouchGestureRecognizerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTForceTouchGestureRecognizerTests.swift; sourceTree = "<group>"; };
+		7AEF8C7E2178C66300D634B1 /* GTForceTouchGestureRecognizerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GTForceTouchGestureRecognizerInternal.swift; path = Sources/GTForceTouchGestureRecognizerInternal.swift; sourceTree = "<group>"; };
 		AD2FAA261CD0B6D800659CF4 /* GTForceTouchGestureRecognizer.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GTForceTouchGestureRecognizer.plist; sourceTree = "<group>"; };
 		AD2FAA281CD0B6E100659CF4 /* GTForceTouchGestureRecognizerTests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GTForceTouchGestureRecognizerTests.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				52D6D9961BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift */,
+				7AEF8C7E2178C66300D634B1 /* GTForceTouchGestureRecognizerInternal.swift */,
 				52D6D99C1BEFF38C002C0205 /* Configs */,
 				52D6D97D1BEFF229002C0205 /* Products */,
 			);
@@ -111,6 +114,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52D6D9901BEFF229002C0205 /* Build configuration list for PBXNativeTarget "GTForceTouchGestureRecognizer-iOS" */;
 			buildPhases = (
+				7ABBC6D921788C8200F611D8 /* SwiftLint */,
 				52D6D9771BEFF229002C0205 /* Sources */,
 				52D6D9781BEFF229002C0205 /* Frameworks */,
 				52D6D9791BEFF229002C0205 /* Headers */,
@@ -198,12 +202,34 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7ABBC6D921788C8200F611D8 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\nif [ \"$CI\" == true ]; then\nexit 0\nfi\n\nif which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"error: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nexit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		52D6D9771BEFF229002C0205 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				52D6D9981BEFF375002C0205 /* GTForceTouchGestureRecognizer.swift in Sources */,
+				7AEF8C7F2178C66300D634B1 /* GTForceTouchGestureRecognizerInternal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

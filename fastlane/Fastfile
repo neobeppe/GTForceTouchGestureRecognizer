@@ -22,6 +22,7 @@ platform :ios do
 
   desc "Default CI lane"
   lane :ci do
+    lint
     test
     coverage
   end
@@ -50,6 +51,13 @@ platform :ios do
     clean_build_artifacts
   end
 
+  lane :lint do
+    swiftlint(
+  mode: :lint,
+  config_file: ".swiftlint.yml",
+  ignore_exit_status: false
+)
+  end
   after_all do |lane|
     clean
   end
