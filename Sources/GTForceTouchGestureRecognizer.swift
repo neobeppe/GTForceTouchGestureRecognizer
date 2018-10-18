@@ -31,7 +31,7 @@ public class GTForceTouchGestureRecognizer: UIGestureRecognizer {
     internal var gestureParameters: (target: AnyObject?, action: Selector)
     internal let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
     internal let threshold: CGFloat
-    internal let hardTriggerMinTime: TimeInterval
+    internal var hardTriggerMinTime: TimeInterval
     
     internal var deepPressed: Bool = false {
         didSet {
