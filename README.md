@@ -57,7 +57,6 @@ view.addGestureRecognizer(forceTouchGestureRecognizer)
 
 Optionally you can specify:
 *   force percentage `threshold`, which is 0.75 by default
-*   `vibrateOnDeepPress` to enable/disable deep press vibration (default is `true`)
 *   `hardTriggerMinTime` minimum time after force touch has began
 
 ## License
