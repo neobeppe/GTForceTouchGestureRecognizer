@@ -26,7 +26,7 @@ import UIKit.UIGestureRecognizerSubclass
 
 internal extension GTForceTouchGestureRecognizer {
     
-    internal func handleTouch(_ touch: UITouch?) {
+    func handleTouch(_ touch: UITouch?) {
         guard view != nil, let touch = touch, touch.force != 0 && touch.maximumPossibleForce != 0 else {
             return
         }
